@@ -36,12 +36,12 @@ var (
 )
 
 func Run(host string, port int) {
-	fmt.Println("EditorNetwork启动")
+	fmt.Println("Webctl启动")
 	// http.HandleFunc("/ws", websocketServer)
 	http.HandleFunc("/", httpServer)
 	err := http.ListenAndServe(host+":"+strconv.Itoa(port), nil)
 	if err != nil {
-		panic("WebSocket错误!地址 " + ":" + host + strconv.Itoa(port) + " 不能监听")
+		panic("Webctl错误!地址 " + ":" + host + strconv.Itoa(port) + " 不能监听")
 	}
 }
 
@@ -70,7 +70,7 @@ func httpServer(rw http.ResponseWriter, rq *http.Request) {
 
 	defer rq.Body.Close()
 	data, err := ioutil.ReadAll(rq.Body)
-	fmt.Println("数据", string(data))
+	// fmt.Println("数据", string(data))
 	if err != nil {
 		return
 	}
