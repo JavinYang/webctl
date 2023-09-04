@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"reflect"
 	"strconv"
+	"strings"
 	"sync"
 )
 
@@ -17,6 +18,7 @@ func init() {
 
 func RegistHttpController(name string, uci HttpUserControllerInterface) {
 
+	name = strings.ToLower(name)
 	_, ok := httpControllerPools[name]
 	if ok {
 		panic("已经存在叫做" + name + "的controller")
@@ -34,22 +36,20 @@ func RegistHttpController(name string, uci HttpUserControllerInterface) {
 }
 
 func runHttpController(controllerName string, serverName string, rw http.ResponseWriter, rq *http.Request, data map[string]interface{}, bodyData []byte) {
-	fmt.Println("进入")
+	controllerName = strings.ToLower(controllerName)
+	serverName = strings.ToLower(serverName)
 	ci, ok := getHttpContorller(controllerName, rw, rq, data, bodyData)
 	if !ok {
 		rw.WriteHeader(404)
 		return
 	}
-	fmt.Println("进入")
 	server, ok := ci.methodsMap[serverName]
 	if ok {
-		fmt.Println("调用")
 		server()
 	}
 	if !ci.contoller.isReplyed() {
 		ci.contoller.replyState(403)
 	}
-	fmt.Println("进入")
 
 	httpPutContorller(ci)
 	return
@@ -87,6 +87,7 @@ func (this *httpControllerInstanceInfo) init(controllerReflect reflect.Value, co
 	this.methodsMap = make(map[string]func())
 	for i := 0; i < numMethod; i++ {
 		methodName := controllerReflect.Type().Method(i).Name
+		methodName = strings.ToLower(methodName)
 		this.methodsMap[methodName] = controllerReflect.Method(i).Interface().(func())
 	}
 	this.contoller = controllerReflect.Interface().(HttpUserControllerInterface) // 必须是指针
