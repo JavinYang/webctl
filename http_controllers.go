@@ -2,7 +2,6 @@ package webctl
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"reflect"
 	"strconv"
