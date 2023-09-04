@@ -40,7 +40,6 @@ func Run(host string, port int) {
 	// http.HandleFunc("/ws", websocketServer)
 	http.HandleFunc("/", httpServer)
 	err := http.ListenAndServe(host+":"+strconv.Itoa(port), nil)
-	fmt.Println("等待")
 	if err != nil {
 		panic("WebSocket错误!地址 " + ":" + host + strconv.Itoa(port) + " 不能监听")
 	}
