@@ -35,14 +35,14 @@ var (
 	}
 )
 
-func Init() {
+func Run(host string, port int32) {
 	fmt.Println("EditorNetwork启动")
 	// http.HandleFunc("/ws", websocketServer)
 	http.HandleFunc("/", httpServer)
-	err := http.ListenAndServe(":"+strconv.Itoa(2023), nil)
+	err := http.ListenAndServe(host+":"+strconv.Itoa(port), nil)
 	fmt.Println("等待")
 	if err != nil {
-		panic("WebSocket错误!地址 " + ":" + strconv.Itoa(2023) + " 不能监听")
+		panic("WebSocket错误!地址 " + ":" + host + strconv.Itoa(port) + " 不能监听")
 	}
 }
 
