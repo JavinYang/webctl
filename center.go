@@ -35,7 +35,7 @@ var (
 	}
 )
 
-func Run(host string, port int32) {
+func Run(host string, port int) {
 	fmt.Println("EditorNetwork启动")
 	// http.HandleFunc("/ws", websocketServer)
 	http.HandleFunc("/", httpServer)
